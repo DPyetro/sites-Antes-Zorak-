@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aprenda a Desenhar — Do Zero ao Avançado</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+        }
+
+        :root {
+            --preto: #0f0f14;
+            --preto-claro: #1a1a24;
+            --preto-suave: #252535;
+            --roxo-escuro: #4b1694;
+            --roxo-principal: #7b2cbf;
+            --roxo-claro: #9d4edd;
+            --amarelo-escuro: #e0a800;
+            --amarelo-principal: #ffd60a;
+            --amarelo-claro: #fff100;
+            --dourado: #f0c808;
+            --cinza-claro: #c9c9d4;
+            --branco-suave: #f3f3f8;
+            --violeta: #c77dff;
+            --laranja-suave: #ff9f1c;
+        }
+
+        body {
+            background-color: var(--preto);
+            color: var(--branco-suave);
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--roxo-escuro), var(--roxo-principal), var(--roxo-claro));
+            color: var(--branco-suave);
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 3px solid var(--amarelo-principal);
+        }
+
+        header h1 {
+            font-size: 1.7rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 0 15px rgba(255, 214, 10, 0.4);
+        }
+
+        header p {
+            opacity: 0.95;
+            font-size: 1rem;
+            color: var(--cinza-claro);
+        }
+
+        nav {
+            position: sticky;
+            top: 0;
+            background: var(--preto-claro);
+            box-shadow: 0 2px 10px rgba(123, 44, 191, 0.25);
+            z-index: 100;
+            border-bottom: 2px solid var(--roxo-escuro);
+        }
+
+        .nav-botoes {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 0.8rem;
+            gap: 0.5rem;
+        }
+
+        .nav-btn {
+            padding: 0.6rem 1rem;
+            background: var(--preto-suave);
+            border: 1px solid var(--roxo-principal);
+            color: var(--branco-suave);
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-btn:hover, .nav-btn.ativo {
+            background: var(--roxo-principal);
+            border-color: var(--amarelo-principal);
+            color: var(--branco-suave);
+            box-shadow: 0 0 12px rgba(255, 214, 10, 0.3);
+        }
+
+        main {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        .pagina {
+            display: none;
+            animation: aparecer 0.4s ease;
+        }
+
+        .pagina.ativa {
+            display: block;
+        }
+
+        @keyframes aparecer {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: var(--amarelo-principal);
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--roxo-principal);
+            padding-bottom: 0.5rem;
+            text-shadow: 0 0 8px rgba(255, 214, 10, 0.2);
+        }
+
+        h3 {
+            color: var(--violeta);
+            margin: 1.2rem 0 0.6rem;
+        }
+
+        .card {
+            background: var(--preto-claro);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            box-shadow: 0 4px 15px rgba(123, 44, 191, 0.15);
+            border: 1px solid var(--roxo-escuro);
+        }
+
+        .topico-btn {
+            width: 100%;
+            text-align: left;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: var(--preto-suave);
+            border: 1px solid var(--roxo-principal);
+            color: var(--branco-suave);
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .topico-btn:hover {
+            background: var(--roxo-principal);
+            border-color: var(--amarelo-principal);
+            box-shadow: 0 0 10px rgba(157, 78, 221, 0.3);
+        }
+
+        .topico-conteudo {
+            display: none;
+            padding: 1rem;
+            background: var(--preto-suave);
+            border-left: 3px solid var(--amarelo-principal);
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 0.8rem;
+            color: var(--cinza-claro);
+        }
+
+        .topico-conteudo.aberto {
+            display: block;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 8px;
+            margin: 1rem 0;
+            border: 2px solid var(--roxo-escuro);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .artista-nome {
+            text-align: center;
+            font-weight: bold;
+            color: var(--amarelo-principal);
+            margin-top: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .galeria-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .galeria-item {
+            background: var(--preto-claro);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(123, 44, 191, 0.15);
+            border: 1px solid var(--roxo-principal);
+            transition: transform 0.3s ease;
+        }
+
+        .galeria-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--amarelo-principal);
+        }
+
+        .galeria-img {
+            width: 100%;
+            height: 180px;
+            background: linear-gradient(135deg, var(--roxo-escuro), var(--roxo-principal));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .galeria-texto {
+            padding: 0.8rem;
+            font-size: 0.9rem;
+            color: var(--cinza-claro);
+        }
+
+        .caixa-salvar {
+            background: var(--preto-suave);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            border: 1px solid var(--roxo-claro);
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.7rem;
+            margin: 0.5rem 0;
+            background: var(--preto);
+            border: 1px solid var(--roxo-principal);
+            border-radius: 4px;
+            font-size: 0.95rem;
+            color: var(--branco-suave);
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--amarelo-principal);
+            box-shadow: 0 0 8px rgba(255, 214, 10, 0.2);
+        }
+
+        button.salvar-btn {
+            background: linear-gradient(90deg, var(--roxo-principal), var(--roxo-claro));
+            color: var(--branco-suave);
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+
+        button.salvar-btn:hover {
+            background: var(--amarelo-principal);
+            color: var(--preto);
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(255, 214, 10, 0.4);
+        }
+
+        .mensagem {
+            margin-top: 0.8rem;
+            color: var(--amarelo-claro);
+            font-size: 0.9rem;
+            display: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: var(--preto-claro);
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            color: var(--cinza-claro);
+            border-top: 2px solid var(--roxo-principal);
+        }
+
+        strong {
+            color: var(--amarelo-claro);
+        }
+
+        a {
+            color: var(--violeta);
+        }
+
+        a:hover {
+            color: var(--amarelo-principal);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--preto);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--roxo-principal);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--amarelo-principal);
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>🎨 Aprenda a Desenhar</h1>
+    <p>Do Zero ao Avançado — Seu progresso fica salvo aqui ✨</p>
+</header>
+
+<nav>
+    <div class="nav-botoes">
+        <button class="nav-btn ativo" onclick="abrirPagina('inicio')">🏠 Início</button>
+        <button class="nav-btn" onclick="abrirPagina('fundamentos')">📐 Fundamentos</button>
+        <button class="nav-btn" onclick="abrirPagina('videos')">🎬 Vídeos</button>
+        <button class="nav-btn" onclick="abrirPagina('galeria')">🖼️ Galeria</button>
+        <button class="nav-btn" onclick="abrirPagina('salvos')">💾 Meus Conteúdos</button>
+        <button class="nav-btn" onclick="abrirPagina('sobre')">ℹ️ Sobre</button>
+    </div>
+</nav>
+
+<main>
+
+    <!-- PÁGINA INÍCIO -->
+    <section id="inicio" class="pagina ativa">
+        <h2>Bem-vindo ao mundo do desenho! ✏️</h2>
+        <div class="card">
+            <h3>📌 O que você encontra aqui</h3>
+            <p>Este é seu espaço completo para aprender a desenhar do zero! Todos os conteúdos estão organizados em abas acima. Além disso, você pode <strong>salvar suas anotações e conteúdos</strong> — eles ficam guardados no próprio navegador, funcionando no celular e no computador.</p>
+            
+            <h3>🚀 Por onde começar?</h3>
+            <p>1️⃣ Vá em <strong>Fundamentos</strong> e estude cada tópico na ordem<br>
+            2️⃣ Veja os <strong>Vídeos</strong> dos artistas para se inspirar<br>
+            3️⃣ Confira a <strong>Galeria</strong> com exemplos reais<br>
+            4️⃣ Use <strong>Meus Conteúdos</strong> para salvar suas anotações</p>
+            
+            <p style="margin-top: 1rem; font-style: italic; color: var(--laranja-suave);">"A prática leva à perfeição. Desenhe todos os dias!" ✨</p>
+        </div>
+    </section>
+
+    <!-- PÁGINA FUNDAMENTOS -->
+    <section id="fundamentos" class="pagina">
+        <h2>📐 Todos os Fundamentos do Desenho</h2>
+        
+        <button class="topico-btn" onclick="toggleTopico('linhas')">✏️ Linhas e Traços</button>
+        <div id="linhas" class="topico-conteudo">
+            <p><strong>O que é:</strong> A base de tudo. Linhas definem contornos, formas e direção.</p>
+            <p><strong>Tipos:</strong> Reta, curva, pontilhada, grossa, fina, contínua, quebrada.</p>
+            <p><strong>Como praticar:</strong> Faça linhas sem régua, circulos e formas simples repetidamente. Quanto mais treinar, mais firme seu traço fica!</p>
+        </div>
+
+        <button class="topico-btn" onclick="toggleTopico('formas')">🔷 Formas Geométricas</button>
+        <div id="formas" class="topico-conteudo">
+            <p><strong>O que é:</strong> Tudo no mundo pode ser reduzido a formas básicas — círculo, quadrado, triângulo, cilindro, esfera, cone e cubo.</p>
+            <p><strong>Por que é importante:</strong> Antes de desenhar uma pessoa ou objeto, monte-o com formas simples. Isso facilita MUITO!</p>
+        </div>
+
+        <button class="topico-btn" onclick="toggleTopico('perspectiva')">🔍 Perspectiva</button>
+        <div id="perspectiva" class="topico-conteudo">
+            <p><strong>O que é:</strong> A arte de representar objetos tridimensionais em uma superfície plana, dando a sensação de profundidade.</p>
+            <p><strong>Tipos:</strong><br>
+            • <strong>1 ponto:</strong> Para vistas diretas (corredor, estrada)<br>
+            • <strong>2 pontos:</strong> Para cantos de prédios<br>
+            • <strong>3 pontos:</strong> Para vistas de cima para baixo ou de baixo para cima</p>
+        </div>
+
+        <button class="topico-btn" onclick="toggleTopico('luzsombra')">💡 Luz e Sombra</button>
+        <div id="luzsombra" class="topico-conteudo">
+            <p><strong>O que é:</strong> A luz define onde o objeto termina e começa. Sem sombra, o desenho parece plano.</p>
+            <p><strong>Elementos:</strong> Fonte de luz → Área iluminada → Meio-tom → Sombra própria → Sombra projetada → Reflexo</p>
+        </div>
+
+        <button class="topico-btn" onclick="toggleTopico('valor')">🎚 Valor e Contraste</button>
+        <div id="valor" class="topico-conteudo">
+            <p><strong>Valor:</strong> O quanto uma área é clara ou escura (escala de cinzas).</p>
+            <p><strong>Contraste:</strong> A diferença entre claro e escuro. Quanto maior a diferença, mais impacto o desenho tem!</p>
+        </div>
+
+        <button class="topico-btn" onclick="toggleTopico('composicao')">🖼️ Composição</button>
+        <div id="composicao" class="topico-conteudo">
+            <p><strong>O que é:</strong> Como você organiza os elementos dentro do papel.</p>
+            <p><strong>Dicas:</strong> Regra dos terços — imagine o papel dividido em 9 partes. Coloque os pontos importantes nas linhas de cruzamento. Não coloque tudo no centro!</p>
+        </div>
+
+        <button class="topico-btn" onclick="toggleTopico('proporcao')">📏 Proporção</button>
+        <div id="proporcao" class="topico-conteudo">
+            <p><strong>O que é:</strong> O tamanho de uma parte em relação a outra. No corpo humano, por exemplo, a cabeça cabe cerca de 7 a 8 vezes no comprimento total do corpo.</p>
+        </div>
+
+        <button class="topico-btn" onclick="toggleTopico('anatomia')">🧍 Anatomia Humana</button>
+        <div id="anatomia" class="topico-conteudo">
+            <p><strong>Base:</strong> Comece sempre com a estrutura óssea, depois músculos e por último a pele. Entender o esqueleto ajuda a não "travar" nas poses!</p>
+        </div>
+
+        <button class="topico-btn" onclick="toggleTopico('olhos')">👀 Desenhando Olhos</button>
+        <div id="olhos" class="topico-conteudo">
+            <p><strong>Passo a passo:</strong> Desenhe a forma geral → íris e pupila → brilho de luz → sombras e sobrancelha → detalhes finais. Os olhos são espelhos da alma — dedique atenção ao brilho da luz neles!</p>
+        </div>
+
+        <button class="topico-btn" onclick="toggleTopico('maos')">✋ Desenhando Mãos</button>
+        <div id="maos" class="topico-conteudo">
+            <p><strong>Dica:</strong> Use formas simples. A palma é como um quadrado ou forma de concha. Cada dedo tem 3 partes — divida por segmentos. Sempre comece simples!</p>
+        </div>
+
+        <button class="topico-btn" onclick="toggleTopico('textura')">🧶 Textura</button>
+        <div id="textura" class="topico-conteudo">
+            <p><strong>O que é:</strong> A sensação tátil que algo transmite, representada com marcas no papel — pelos, água, madeira, tecido, pedra. Cada material tem sua forma de ser texturizado!</p>
+        </div>
+
+        <button class="topico-btn" onclick="toggleTopico('escala')">📐 Escala</button>
+        <div id="escala" class="topico-conteudo">
+            <p><strong>O que é:</strong> O tamanho de um objeto comparado a outro. Um elefante parece enorme ao lado de uma pessoa, mas pequeno ao lado de uma árvore. Use objetos de referência para dar dimensão ao seu desenho!</p>
+        </div>
+    </section>
+
+    <!-- PÁGINA VÍDEOS -->
+    <section id="videos" class="pagina">
+        <h2>🎬 Vídeos de Artistas</h2>
+        
+        <div class="card">
+            <h3>✨ @Leomk</h3>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Vídeo Leomk" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <p class="artista-nome">🎨 Artista: @Leomk — Dicas de traço e estilo</p>
+        </div>
+
+        <div class="card">
+            <h3>✨ @v1ck_arts</h3>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Vídeo v1ck_arts" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <p class="artista-nome">🎨 Artista: @v1ck_arts — Ilustração e conceito</p>
+        </div>
+
+        <div class="card">
+            <h3>✨ @DesenhoMestre</h3>
+            <div class="video-container">
+                <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Vídeo DesenhoMestre" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <p class="artista-nome">🎨 Artista: @DesenhoMestre — Tutoriais completos do básico ao avançado</p>
+        </div>
+
+        <div class="card caixa-salvar">
+            <h3>➕ Adicionar novo vídeo (fica salvo aqui!)</h3>
+            <input type="text" id="novoArtista" placeholder="Nome do artista (ex: @NovoArtista)">
+            <input type="text" id="novoVideoUrl" placeholder="Link do vídeo do YouTube">
+            <button class="salvar-btn" onclick="adicionarVideo()">Salvar Vídeo</button>
+            <p class="mensagem" id="msgVideo">✅ Vídeo salvo com sucesso!</p>
+            <div id="videosSalvos"></div>
+        </div>
+    </section>
+
+    <!-- PÁGINA GALERIA -->
+    <section id="galeria" class="pagina">
+        <h2>🖼️ Galeria de Referências</h2>
+        <p>Estude esses desenhos reais e veja o que pode aprender com cada um:</p>
+        
+        <div class="galeria-grid" style="margin-top: 1.5rem;">
+            <div class="galeria-item">
+                <div class="galeria-img">🖌️</div>
+                <div class="galeria-texto">
+                    <strong>Estudo de Olhos</strong><br>
+                    Observe como a luz reflete na íris e como as sombras dão profundidade.
+                </div>
+            </div>
+            <div class="galeria-item">
+                <div class="galeria-img">✏️</div>
+                <div class="galeria-texto">
+                    <strong>Proporção Corporal</strong><br>
+                    O corpo humano tem cerca de 7,5 vezes a altura da cabeça. Sempre comece pelas linhas guia.
+                </div>
+            </div>
+            <div class="galeria-item">
+                <div class="galeria-img">🎨</div>
+                <div class="galeria-texto">
+                    <strong>Perspectiva</strong><br>
+                    Repare como as linhas se encontram em um ponto imaginário no horizonte.
+                </div>
+            </div>
+            <div class="galeria-item">
+                <div class="galeria-img">📐</div>
+                <div class="galeria-texto">
+                    <strong>Luz e Sombra</strong><br>
+                    A sombra projetada sempre vai na direção oposta à fonte de luz.
+                </div>
+            </div>
+        </div>
+
+        <div class="card caixa-salvar" style="margin-top: 2rem;">
+            <h3>➕ Adicionar nova referência</h3>
+            <input type="text" id="novaImgTitulo" placeholder="Título do desenho">
+            <textarea id="novaImgDesc" placeholder="O que podemos aprender com este desenho..." rows="3"></textarea>
+            <button class="salvar-btn" onclick="adicionarImagem()">Salvar Referência</button>
+            <p class="mensagem" id="msgImagem">✅ Desenho salvo com sucesso!</p>
+        </div>
+    </section>
+
+    <!-- PÁGINA MEUS CONTEÚDOS SALVOS -->
+    <section id="salvos" class="pagina">
+        <h2>💾 Meus Conteúdos Salvos</h2>
+        <p>✅ Tudo aqui fica guardado automaticamente no seu navegador — não perde ao fechar!</p>
+        
+        <div class="card caixa-salvar">
+            <h3>📝 Minhas Anotações</h3>
+            <textarea id="minhasAnotacoes" placeholder="Escreva aqui suas anotações, progresso e metas de desenho..." rows="8"></text
